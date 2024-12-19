@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貨幣兌換計算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #converter {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>貨幣兌換計算器</h1>
+    <div id="converter">
+        <input type="number" id="amount" placeholder="輸入金額" min="0">
+        <select id="fromCurrency">
+            <option value="TWD">台幣 (TWD)</option>
+            <option value="USD">美元 (USD)</option>
+            <option value="EUR">歐元 (EUR)</option>
+            <option value="JPY">日圓 (JPY)</option>
+        </select>
+        <select id="toCurrency">
+            <option value="USD">美元 (USD)</option>
+            <option value="TWD">台幣 (TWD)</option>
+            <option value="EUR">歐元 (EUR)</option>
+            <option value="JPY">日圓 (JPY)</option>
+        </select>
+        <button onclick="convert()">兌換</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        // 靜態匯率表
+        const exchangeRates = {
+            TWD: { USD: 0.032, EUR: 0.029, JPY: 4.54 },
+            USD: { TWD: 31.25, EUR: 0.91, JPY: 141.86 },
+            EUR: { TWD: 34.48, USD: 1.1, JPY: 155.96 },
+            JPY: { TWD: 0.22, USD: 0.007, EUR: 0.0064 },
+        };
+
+        function convert() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('result').textContent = '請輸入有效金額！';
+                return;
+            }
+
+            if (fromCurrency === toCurrency) {
+                document.getElementById('result').textContent = '請選擇不同的貨幣進行兌換！';
+                return;
+            }
+
+            // 匯率計算
+            const rate = exchangeRates[fromCurrency][toCurrency];
+            const convertedAmount = (amount * rate).toFixed(2);
+
+            document.getElementById('result').textContent = `${amount} ${fromCurrency} 兌換為 ${convertedAmount} ${toCurrency}`;
+        }
+    </script>
+</body>
+</html>

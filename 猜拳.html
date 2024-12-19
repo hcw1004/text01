@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>石頭剪刀布遊戲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        #game-container {
+            margin: 20px auto;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .choice {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+        .choice:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        #score {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>石頭剪刀布遊戲</h1>
+    <div id="game-container">
+        <p>請選擇你的出拳：</p>
+        <div class="choices">
+            <button class="choice" onclick="playGame('石頭')">石頭</button>
+            <button class="choice" onclick="playGame('剪刀')">剪刀</button>
+            <button class="choice" onclick="playGame('布')">布</button>
+        </div>
+        <div id="result">結果會顯示在這裡。</div>
+        <div id="score">玩家得分：0 | 電腦得分：0</div>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function getComputerChoice() {
+            const choices = ["石頭", "剪刀", "布"];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        function playGame(playerChoice) {
+            const computerChoice = getComputerChoice();
+            let result = "";
+
+            if (playerChoice === computerChoice) {
+                result = `平手！雙方都選擇了 ${playerChoice}。`;
+            } else if (
+                (playerChoice === "石頭" && computerChoice === "剪刀") ||
+                (playerChoice === "剪刀" && computerChoice === "布") ||
+                (playerChoice === "布" && computerChoice === "石頭")
+            ) {
+                result = `你贏了！你的選擇：${playerChoice}，電腦的選擇：${computerChoice}。`;
+                playerScore++;
+            } else {
+                result = `你輸了！你的選擇：${playerChoice}，電腦的選擇：${computerChoice}。`;
+                computerScore++;
+            }
+
+            document.getElementById("result").textContent = result;
+            document.getElementById("score").textContent = `玩家得分：${playerScore} | 電腦得分：${computerScore}`;
+        }
+    </script>
+</body>
+</html>
